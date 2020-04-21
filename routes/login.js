@@ -1,9 +1,9 @@
 var express = require('express');
 
 const login = {
-  post: function(req, res, next) {
-    console.log(req.body)
-    res.send('login');
+  post: async function(req, res, next) {
+    await console.log(req.body)
+    await res.send('login');
   }
 }
 

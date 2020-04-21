@@ -2,8 +2,8 @@ var express = require('express');
 
 /* GET user details. */
 const user = {
-  get: function(req, res, next) {
-    res.send('user');
+  get: async function(req, res, next) {
+    await res.send('user');
   }
 }
 

@@ -1,5 +1,3 @@
-var express = require('express');
-
 const login = {
   post: async function(req, res, next) {
     await console.log(req.body)

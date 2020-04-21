@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "develop": "nodemon app.js",
     "serve": "pm2 start app.js --watch"
   },
   "dependencies": {
@@ -11,5 +12,8 @@
     "express": "~4.16.1",
     "morgan": "~1.9.1",
     "pm2": "^4.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }

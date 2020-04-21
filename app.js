@@ -7,8 +7,7 @@ var http = require('http');
 
 var port = process.env.PORT || '4000';
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var routes = require('./routes');
 
 var app = express();
 var server = http.createServer(app);
@@ -19,8 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', routes);
 
 app.set('port', port);
 
@@ -52,10 +50,7 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
+/* Event listener for HTTP server "listening" event. */
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'

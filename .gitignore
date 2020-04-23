@@ -42,3 +42,6 @@ node_modules/
 .yarn/unplugged
 .yarn/build-state.yml
 .pnp.*
+
+# certificates and private keys
+*.pem

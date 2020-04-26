@@ -1,15 +1,18 @@
 var express = require('express');
 var router = express.Router();
 
-var home = require('./home');
-var login = require('./login');
+var auth = require('./auth');
 var user = require('./user');
 
-/* GET home page. */
-router.get('/', home.get);
+/* GET signin. */
+router.get('/auth/signin',
+  auth.signin.get
+);
 
-/* POST login. */
-router.post('/login', login.post);
+router.post('/auth/callback',
+  auth.callback.post,
+  auth.callback.redirect
+);
 
 /* GET user details. */
 router.get('/user', user.get);

@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 var routes = require('./routes');
+var graph = require('./utils/graph');
 
 // Configure simple-oauth2
 const oauth2 = require('simple-oauth2').create({
@@ -51,11 +52,24 @@ async function signInComplete(iss, sub, profile, accessToken, refreshToken, para
     return done(new Error("No OID found in user profile."));
   }
 
+  // add user email to profile
+  try{
+    const user = await graph.getUserDetails(accessToken);
+
+    if (user) {
+      // Add properties to profile
+      profile['email'] = user.mail ? user.mail : user.userPrincipalName;
+    }
+  } catch (err) {
+    done(err, null);
+  }
+
   // Create a simple-oauth2 token from raw tokens
+  // token have expiration date and type
   let oauthToken = oauth2.accessToken.create(params);
 
   // Save the profile and tokens in user storage
-  users[profile.oid] = { profile, accessToken };
+  users[profile.oid] = { profile, oauthToken };
   return done(null, users[profile.oid]);
 }
 

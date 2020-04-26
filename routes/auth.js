@@ -26,6 +26,7 @@ const auth = {
     },
     redirect: function(req, res) {
       console.log('redirect after callback')
+      console.log(res.req.user)
       res.status(301).redirect(process.env.LOGIN_REDIRECT);
     }
   }

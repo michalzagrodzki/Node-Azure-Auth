@@ -15,6 +15,10 @@ router.post('/auth/callback',
   auth.callback.redirect
 );
 
+router.get('/auth/signout',
+  auth.signout.get
+);
+
 /* GET user details. */
 router.get('/user',
   auth.route.isAuthenticated,

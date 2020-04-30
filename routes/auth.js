@@ -6,7 +6,6 @@ const REFRESH_TOKEN = 'refresh';
 const auth = {
   signin: {
     get: function(req, res, next) {
-      console.log('signin')
       passport.authenticate('azuread-openidconnect',
         {
           response: res,
@@ -19,8 +18,6 @@ const auth = {
   },
   callback: {
     post: function(req, res, next) { 
-      console.log('***** callback')
-      console.log(req.body)
       passport.authenticate('azuread-openidconnect',
         {
           response: res,
@@ -30,8 +27,6 @@ const auth = {
       )(req,res,next);
     },
     redirect: function(req, res) {
-      console.log('***** redirect')
-      console.log(req.user)
       const clientRedirectUri = process.env.LOGIN_REDIRECT
       const accessToken = req.user.oauthToken.token.access_token
       const encodedAccess = encodeURIComponent(accessToken)
@@ -40,6 +35,18 @@ const auth = {
       res.statusCode = 302;
       res.setHeader("Location", `${clientRedirectUri}?${ACCESS_TOKEN}=${encodedAccess}&${REFRESH_TOKEN}=${encodedRefresh}`);
       res.end();
+    }
+  },
+  signout: {
+    get: function(req, res, next) {
+      req.session.destroy(function (error) {
+        if (!error) {
+          req.logout();
+          res.status(200).send('logout')
+        } else {
+          res.status(500).send(error)
+        }   
+      })
     }
   },
   route: {
